@@ -1,7 +1,13 @@
 ############ Librairy #####################
 Aceternity UI
+Upload Care: https://uploadcare.com/?via=emmanuel
 
 
 
 
 ############### commandes ###################
+npm install -D prisma
+npx prisma init
+npx prisma generate // après modification dans le shema prisma
+npx prisma db push
+
