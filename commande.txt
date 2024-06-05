@@ -11,3 +11,5 @@ npx prisma init
 npx prisma generate // après modification dans le shema prisma
 npx prisma db push
 
+npm i @uploadcare/react-uploader
+
