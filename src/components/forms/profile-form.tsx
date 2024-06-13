@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -9,10 +9,14 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { Loader2 } from 'lucide-react'
+import { on } from 'events'
 
-type Props = {}
+type Props = {
+    user: any
+    onUpdate: any
+}
 
-const ProfileForm = (props: Props) => {
+const ProfileForm = ({ user, onUpdate}: Props) => {
     const [isLoading, setIsLoading] = React.useState(false)
 
     const form = useForm<z.infer<typeof EditUserProfileSchema>>({
@@ -23,11 +27,25 @@ const ProfileForm = (props: Props) => {
             email: "",
         }
     })
+
+    const handleSubmit = async (values: z.infer<typeof EditUserProfileSchema>) => {
+        setIsLoading(true)
+        await onUpdate(values.name)
+        setIsLoading(false)
+    }
+
+    useEffect(() => {
+        form.reset({
+            name: user?.name || "",
+            email: user?.email || "",
+        })
+    }, [user])
+
   return (
     <Form {...form}>
         <form
             className='flex flex-col gap-6'
-            onSubmit={() => {}}
+            onSubmit={form.handleSubmit(handleSubmit)}
         >
             <FormField
                 disabled={isLoading}
@@ -38,8 +56,8 @@ const ProfileForm = (props: Props) => {
                         <FormLabel className='text-lg'>User full name</FormLabel>
                         <FormControl>
                             <Input
-                                placeholder='Name'
                                 {...field}
+                                placeholder='Name'
                             />
                         </FormControl>
                         <FormMessage/>
@@ -47,17 +65,17 @@ const ProfileForm = (props: Props) => {
                 )}
             />
             <FormField
-                disabled={true}
                 control={form.control}
                 name='email'
                 render={({ field }) => (
                     <FormItem>
-                        <FormLabel className='text-lg'>User full name</FormLabel>
+                        <FormLabel className='text-lg'>Email</FormLabel>
                         <FormControl>
                             <Input
+                                {...field}
+                                disabled
                                 placeholder='Email'
                                 type='email'
-                                {...field}
                             />
                         </FormControl>
                         <FormMessage/>

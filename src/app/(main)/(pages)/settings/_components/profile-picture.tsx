@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react'
 import UploadCareButton from './uploadcare-button'
 import { useRouter } from 'next/navigation'
@@ -41,7 +43,7 @@ const ProfilePicture = ({ userImage, onDelete, onUpload}: Props) => {
                     </Button>
                 </>
             ): (
-                <UploadCareButton/>
+                <UploadCareButton onUplaod={onUpload}/>
             )}
         </div>
     </div>

@@ -3,9 +3,11 @@
 import React, { useEffect, useRef } from 'react'
 import * as LR from "@uploadcare/blocks"
 import { useRouter } from 'next/navigation'
+import { FileUploaderRegular } from '@uploadcare/react-uploader';
+import '@uploadcare/react-uploader/core.css';
 
 type Props = {
-    onUplaod?: any
+    onUplaod: (e: string) => any
 }
 
 LR.registerBlocks(LR)
@@ -17,8 +19,8 @@ const UploadCareButton = ({onUplaod}: Props) => {
     >(null)
 
     useEffect(() => {
-        const handleUpload = async (event: any) => {
-            const file = await onUplaod(event.detail.cdnUrl)
+        const handleUpload = async (e: any) => {
+            const file = await onUplaod(e.detail.cdnUrl)
             if (file) {
                 router.refresh()
             }
@@ -31,9 +33,11 @@ const UploadCareButton = ({onUplaod}: Props) => {
   return (
     <div>
         <lr-config
-            ctx-name="my-uploader"
-            pubkey="a9428ff5ff90ae7a64eb"
+          ctx-name="my-uploader"
+          pubkey="a9428ff5ff90ae7a64eb"
         />
+
+        {/* <FileUploaderRegular pubkey="4066c0bfdfc9f9239f27" /> */}
 
       <lr-file-uploader-regular
         ctx-name="my-uploader"
